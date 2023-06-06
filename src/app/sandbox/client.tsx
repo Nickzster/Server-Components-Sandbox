@@ -5,12 +5,15 @@ import { ChangeEvent, useState } from "react";
 import { useTransition } from "react";
 
 import { addTodoItem } from "./action";
-const Client = () => {
+
+const Client = (props: { session: string }) => {
+  const { session } = props;
   const [newTodo, setNewTodo] = useState("");
 
   const [isPending, startTransition] = useTransition();
 
-  const handleAddNewTodo = () => startTransition(() => addTodoItem(newTodo));
+  const handleAddNewTodo = () =>
+    startTransition(() => addTodoItem(newTodo, session));
 
   return (
     <div className="flex flex-row">
