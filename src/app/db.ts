@@ -40,7 +40,7 @@ class InMemoryDB {
   }
 
   public getSessionItems(session?: string) {
-    if (!session) return;
+    if (!session) return [];
     const fullDb = openDBFile();
     const sessionDb = fullDb
       .filter((dbItem) => {
@@ -48,7 +48,7 @@ class InMemoryDB {
         console.log(owner, todoItem);
         if (owner === session) return todoItem;
       })
-      .map((filteredDbItem) => filteredDbItem.split(DELIMITER).at(1));
+      .map((filteredDbItem) => filteredDbItem.split(DELIMITER).at(1) as string);
 
     return sessionDb;
   }
