@@ -9,8 +9,10 @@ const createDBFile = () => {
   fs.writeFileSync(DB_PATH, "");
 };
 
-const appendToDb = (contentsToAppend: string) => {
-  fs.appendFileSync(DB_PATH, `${contentsToAppend}\n`);
+const DELIMITER = "__@__";
+
+const appendToDb = (contentsToAppend: string, session: string) => {
+  fs.appendFileSync(DB_PATH, `${session}${DELIMITER}${contentsToAppend}\n`);
 };
 
 const openDBFile = () => {
@@ -32,9 +34,23 @@ class InMemoryDB {
     return this;
   }
 
-  public addToDb(newItem: string) {
-    appendToDb(newItem);
+  public addToDb(newItem: string, session: string) {
+    appendToDb(newItem, session);
     return this;
+  }
+
+  public getSessionItems(session?: string) {
+    if (!session) return;
+    const fullDb = openDBFile();
+    const sessionDb = fullDb
+      .filter((dbItem) => {
+        const [owner, todoItem] = dbItem.split(DELIMITER);
+        console.log(owner, todoItem);
+        if (owner === session) return todoItem;
+      })
+      .map((filteredDbItem) => filteredDbItem.split(DELIMITER).at(1));
+
+    return sessionDb;
   }
 
   public readDb() {
