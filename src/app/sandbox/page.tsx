@@ -15,6 +15,7 @@ const TodoList = (props: { items: string[] }) => {
 };
 
 const Sandbox = ({ searchParams }: { searchParams: { id?: string } }) => {
+  console.log("Sandbox called!");
   let sessionId = searchParams.id;
 
   if (!sessionId)

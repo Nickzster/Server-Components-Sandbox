@@ -45,7 +45,7 @@ class InMemoryDB {
     const sessionDb = fullDb
       .filter((dbItem) => {
         const [owner, todoItem] = dbItem.split(DELIMITER);
-        console.log(owner, todoItem);
+        //console.log(owner, todoItem);
         if (owner === session) return todoItem;
       })
       .map((filteredDbItem) => filteredDbItem.split(DELIMITER).at(1) as string);
